@@ -41,8 +41,8 @@ class Data(Dataset):
                  flip=True,
                  random_crop=True,
                  scale1=512):
-
         self.root_dir = root_dir
+        print(root_dir)
         self.train = train
         self.rotate = rotate
         self.flip = flip
@@ -50,6 +50,7 @@ class Data(Dataset):
         self.transform = transforms.ToTensor()
         self.resize = scale1
         self.images, self.groundtruth = load_dataset(self.root_dir, self.train)
+
 
     def __len__(self):
         return len(self.images)
