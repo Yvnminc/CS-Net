@@ -11,7 +11,7 @@ import numpy as np
 from model.csnet import CSNet
 from dataloader.drive import Data
 from utils.train_metrics import metrics
-from utils.visualize import init_visdom_line, update_lines
+#from utils.visualize import init_visdom_line, update_lines
 from utils.dice_loss_single_class import dice_coeff_loss
 
 #os.environ["CUDA_VISIBLE_DEVICES"] = "1"

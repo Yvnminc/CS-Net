@@ -6,9 +6,9 @@ import torch.nn as nn
 import torch
 from PIL import ImageOps, Image
 from sklearn.metrics import confusion_matrix
-import SimpleITK as sitk
+#import SimpleITK as sitk
 import tqdm
-import vtk
+#import vtk
 
 
 def ReScaleSize(image, re_size=512):

@@ -18,7 +18,7 @@
 # @Author : Lei Mou
 # @File   : evaluation_metrics3D.py
 import numpy as np
-import SimpleITK as sitk
+#import SimpleITK as sitk
 import glob
 import os
 from scipy.spatial import distance
