@@ -4,11 +4,12 @@ from PIL import Image, ImageOps
 
 import numpy as np
 import scipy.misc as misc
+import PIL
 import os
 import glob
 
 from utils.misc import thresh_OTSU, ReScaleSize, Crop
-from utils.model_eval import eval
+#from utils.model_eval import eval
 
 DATABASE = './DRIVE/'
 #
@@ -125,7 +126,7 @@ def load_octa():
 
 
 def load_net():
-    net = torch.load('./checkpoint/xxxx.pkl')
+    net = torch.load('./checkpoint/CS_Net_DRIVE_100.pkl')
     return net
 
 
@@ -137,7 +138,15 @@ def save_prediction(pred, filename=''):
     mask = pred.data.cpu().numpy() * 255
     mask = np.transpose(np.squeeze(mask, axis=0), [1, 2, 0])
     mask = np.squeeze(mask, axis=-1)
-    misc.imsave(save_path + filename + '.png', mask)
+
+    output_path = save_path + filename + '.png'
+    # 将 NumPy 数组转换为 PIL 图像对象
+    image = Image.fromarray(np.uint8(mask))
+
+    # 保存图像
+    image.save(output_path)
+
+    #misc.imsave(output_path, mask)
 
 
 def predict():
@@ -161,12 +170,12 @@ def predict():
             image = Image.open(images[i])
             # image=image.convert("RGB")
             label = Image.open(labels[i])
-            image, label = center_crop(image, label)
+            # image, label = center_crop(image, label)
 
             # for other retinal vessel
             # image = rescale(image)
             # label = rescale(label)
-            # image = ReScaleSize_STARE(image, re_size=args['img_size'])
+            image = ReScaleSize_DRIVE(image, re_size=args['img_size'])
             # label = ReScaleSize_DRIVE(label, re_size=args['img_size'])
 
             # for OCTA
@@ -180,6 +189,7 @@ def predict():
             image = transform(image).cuda()
             # image = transform(image)
             image = image.unsqueeze(0)
+            print(image.shape)
             output = net(image)
 
             save_prediction(output, filename=index + '_pred')
